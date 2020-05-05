@@ -38,4 +38,32 @@ app.post('/foodometer', (request, response) => {
   }
 });
 
+app.post('/foodometer/register', (req, res) => {
+  const data = req.body;
+
+  const query = 'INSERT INTO user (first_name,last_name,email_id,username,password) values (?,?,?,?,?)';
+  // eslint-disable-next-line no-sequences
+  // eslint-disable-next-line max-len
+  connection.query(query, [data.fname, data.lname, data.emailid, data.username, data.password], (err, results) => {
+    if (err) {
+      // eslint-disable-next-line no-console
+      console.log('Error in Mysql', err);
+      res.status(500).send(err);
+    } else {
+      // eslint-disable-next-line no-shadow
+      connection.query(`SELECT * FROM user WHERE user_id = ${results.insertId}`, (err, results) => {
+        if (err) {
+          // eslint-disable-next-line no-console
+          console.log('Error in Mysql', err);
+          res.status(500).send(err);
+        // eslint-disable-next-line brace-style
+        }
+        // eslint-disable-next-line no-empty
+        else {
+          res.status(201).send(results[0]);
+        }
+      });
+    }
+  });
+});
 module.exports.app = serverless(app);

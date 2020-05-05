@@ -20,3 +20,7 @@ functions:
           path: /foodometer
           method: POST
           cors: true 
+      - http:
+          path: /foodometer/register
+          method: POST
+          cors: true     
