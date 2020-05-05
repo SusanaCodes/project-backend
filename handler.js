@@ -5,9 +5,9 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
-  host: 'foodometer.cirzv0ojbs7b.eu-west-1.rds.amazonaws.com',
-  user: 'admin',
-  password: 'Techreturners',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
   database: 'FD',
 });
 const app = express();
